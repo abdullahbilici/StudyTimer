@@ -18,7 +18,8 @@
     "appId": "com.yourname.study_timer",
     "productName": "Study Timer",
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "identity": null  
     },
     "win": {
       "target": "nsis"
