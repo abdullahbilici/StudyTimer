@@ -17,7 +17,7 @@ class Snowflake {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * -canvas.height;
     this.radius = Math.random() * 2 + 1;
-    this.speed = Math.random();
+    this.speed = (this.radius-1)/3 +.2;
   }
 
   draw() {
@@ -39,7 +39,7 @@ class Snowflake {
 }
 // Create snowflakes
 const snowflakes = [];
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 100; i++) {
   snowflakes.push(new Snowflake());
 }
 
