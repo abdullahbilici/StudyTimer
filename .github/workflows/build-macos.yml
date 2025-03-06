@@ -19,7 +19,7 @@ jobs:
         run: npm install
 
       - name: Build for macOS
-        run: npm run build -- --mac --icon=assets/icon.jpeg
+        run: npm run build -- --mac
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
