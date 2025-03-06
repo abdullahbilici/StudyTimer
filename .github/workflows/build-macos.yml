@@ -26,8 +26,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      - name: List contents of dist directory
+        run: ls -al dist/
+
       - name: Upload macOS Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: macOS-build
-          path: dist/*.dmg
+          path: dist/*.zip
