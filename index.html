@@ -125,6 +125,15 @@
       text-align: center;
     }
 
+    .me {
+      position: fixed;
+      bottom: -20px;
+      right: -5px;
+      font-size: 24px;
+      color: black;
+      z-index: 1; /* Ensure it's above other content */
+    }
+
   </style>
 </head>
 <body>
@@ -148,7 +157,7 @@
 
   <!-- Pages -->
   <div id="welcomePage" class="page visible">
-    <h3>Hi!</h3>
+    <h3>Hello Meftune!</h3>
     <button onclick="navigate('studyModeSelectionPage')">Select Mode</button>
   </div>
 
@@ -168,7 +177,7 @@
         <button onclick="setCountdown(60)">60 minutes</button>
         <!-- <input type="number" id="timerInput" placeholder="Enter minutes"onkeydown="if(event.key === 'Enter') setCountdown(parseInt(this.value, 10))"> -->
     </div>
-</div>
+  </div>
 
   <div id="countdownPage" class="page">
     <h3>Countdown</h3>
@@ -214,6 +223,15 @@
     </div>
   </div>
 
+  <div class="me">
+      <pre>
+ o/
+/|
+/ \
+      </pre>
+  </div>
+    
+
   <script src="snow.js"></script>
   <script>
     let soundInterval;
@@ -235,7 +253,7 @@
     }
 
     function playSound(){
-      const sound = new Audio('sound\\mixkit-correct-answer-tone-2870.wav');  // Specify the path to your sound file
+      const sound = new Audio(path.join(__dirname, 'sound', 'mixkit-correct-answer-tone-2870.wav'));  // Specify the path to your sound file
       sound.play();
     }
 
