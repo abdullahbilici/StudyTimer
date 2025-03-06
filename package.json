@@ -19,7 +19,7 @@
     "productName": "Study Timer",
     "mac": {
       "target": "zip",
-      "identity": null  
+      "identity": null
     },
     "win": {
       "target": "nsis"
