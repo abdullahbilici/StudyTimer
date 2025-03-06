@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+    @font-face {
+      font-family: 'PixelFont';
+      src: url('fonts/PressStart2P-Regular.ttf') format('truetype');
+    }
+
+    body {
+      
+      font-family: 'PixelFont', cursive;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      -webkit-app-region: drag;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 400px;
+      height: 40px; /* Thin header */
+      background-color: transparent; /* Match your app's theme */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+      margin: 0;
+      -webkit-app-region: drag; /* Make the header draggable */
+      z-index: 2; /* Ensure the header is above other content */
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* Title styles */
+    .title {
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 20px;
+    }
+
+    /* Button container styles */
+    .headerButtons {
+      display: flex;
+      gap: 5px; /* Space between headerButtons */
+    }
+    .header-btn {
+      width: 40px;
+      height: 40px;
+      font-weight: bold;
+      color: black;
+      margin: 0;
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .visible {
+      display: flex;
+    }
+
+    button {
+      padding: 10px 0;
+      background-color: transparent;
+      color: white;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+      width: 150px;
+      font-family: 'PixelFont', cursive;
+    }
+
+    input {
+      padding: 10px 0;
+      background-color: transparent;
+      color: white;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+      width: 150px;
+      font-family: 'PixelFont', cursive;
+    }
+
+    button:hover {
+      background-color: #1e3c72;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .studyModeSelectionPage>div{
+      align-items: flex-end;
+    }
+
+
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin: 10px 0;
+    }
+
+    .time-block {
+      width: 60px;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Snowy Background -->
+  <canvas id="snowCanvas"></canvas>
+
+  <header class="header">
+    <div class="title">Study Timer</div>
+    <div class="headerButtons">
+      <button id="homeBtn" class="header-btn" onclick="navigateHome()">
+      <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3L2 12h3v8h6v-5h2v5h6v-8h3L12 3z" fill="black"/>
+      </svg>
+    </button>
+      <button id="minimizeBtn" class="header-btn" onclick="minimizeWindow()">_</button>
+      <button id="closeBtn" class="header-btn" onclick="closeWindow()">✖</button>
+    </div>
+  </header>
+
+
+  <!-- Pages -->
+  <div id="welcomePage" class="page visible">
+    <h3>Hi Meftune!</h3>
+    <button onclick="navigate('studyModeSelectionPage')">Select Mode</button>
+  </div>
+
+  <div id="studyModeSelectionPage" class="page">
+    <h3>Select Study Mode</h3>
+    <div>
+      <button onclick="navigate('timerPage')">Timer</button>
+      <button onclick="navigate('chronometerPage')">Chronometer</button>
+    </div>
+  </div>
+
+  <div id="timerPage" class="page">
+    <h3 id="timerH3">Set Timer</h3>
+    <div>
+        <button onclick="setCountdown(30)">30 mins</button>
+        <button onclick="setCountdown(45)">45 mins</button>
+        <button onclick="setCountdown(60)">60 mins</button>
+        <!-- <input type="number" id="timerInput" placeholder="Enter minutes"onkeydown="if(event.key === 'Enter') setCountdown(parseInt(this.value, 10))"> -->
+    </div>
+</div>
+
+  <div id="countdownPage" class="page">
+    <h3>Countdown</h3>
+    <div class="timer">
+      <div class="time-block">
+        <span id="hoursCountdown">00</span>
+      </div>
+      <span>:</span>
+      <div class="time-block">
+        <span id="minutesCountdown">00</span>
+      </div>
+      <span>:</span>
+      <div class="time-block">
+        <span id="secondsCountdown">00</span>
+      </div>
+    </div>
+    <div class="buttons">
+      <button id="startBtnCountdown" onclick="startCountdown()">Start</button>
+      <button id="pauseBtnCountdown" onclick="pauseCountdown()" style="display:none;">Pause</button>
+      <button id="resetBtnCountdown" onclick="resetCountdown()">Reset</button>
+    </div>
+  </div>
+
+  <div id="chronometerPage" class="page">
+    <h3>Chronometer</h3>
+    <div class="timer">
+      <div class="time-block">
+        <span id="hoursChronometer">00</span>
+      </div>
+      <span>:</span>
+      <div class="time-block">
+        <span id="minutesChronometer">00</span>
+      </div>
+      <span>:</span>
+      <div class="time-block">
+        <span id="secondsChronometer">00</span>
+      </div>
+    </div>
+    <div class="buttons">
+      <button id="startBtnChronometer" onclick="startChronometer()">Start</button>
+      <button id="pauseBtnChronometer" onclick="pauseChronometer()" style="display:none;">Pause</button>
+      <button id="resetBtnChronometer" onclick="resetChronometer()" style="display:none;">Reset</button>
+    </div>
+  </div>
+
+  <script src="snow.js"></script>
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    function closeWindow() {
+      ipcRenderer.send('close-window');
+    }
+
+    function minimizeWindow() {
+      ipcRenderer.send('minimize-window');
+    }
+
+    function navigateHome() {
+      resetChronometer();
+      resetCountdown();
+      navigate("welcomePage");
+    }
+
+    function navigate(page) {
+      // Hide all pages
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('visible'));
+
+      // Show the selected page
+      const selectedPage = document.getElementById(page);
+      selectedPage.classList.add('visible');
+    }
+
+    
+    
+    let countdownTime;
+    function setCountdown(time){
+      countdownTime = time * 60 * 1000;
+      
+      let totalSeconds = countdownTime / 1000;
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+      
+      document.getElementById("hoursCountdown").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minutesCountdown").textContent = String(minutes).padStart(2, '0');
+      document.getElementById("secondsCountdown").textContent = String(seconds).padStart(2, '0');
+
+      navigate("countdownPage")
+    }
+
+    let elapsedTime = 0
+    let countdownInterval;
+    let remainingTime;
+    let isCountdownRunning = false;
+
+    function startCountdown() {
+      startTime = new Date();
+
+      countdownInterval = setInterval(updateCountdownTime, 500);
+      isCountdownRunning = true;
+
+      document.getElementById('startBtnCountdown').style.display = "none";
+      document.getElementById('pauseBtnCountdown').style.display = "";
+    }
+
+    function updateCountdownTime() {
+      const currentTime = new Date();
+      const elapsed = currentTime - startTime;
+      const timeLeft = countdownTime - elapsed - elapsedTime;
+
+      if (timeLeft <= 0) {
+        resetCountdown();
+        return;
+      }
+
+      const hours = Math.floor((timeLeft / (1000 * 60 * 60))).toString().padStart(2, '0');
+      const minutes = Math.floor((timeLeft / (1000 * 60)) % 60).toString().padStart(2, '0');
+      const seconds = Math.floor((timeLeft / 1000) % 60).toString().padStart(2, '0');
+
+      document.getElementById('hoursCountdown').textContent = hours;
+      document.getElementById('minutesCountdown').textContent = minutes;
+      document.getElementById('secondsCountdown').textContent = seconds;
+    }
+
+    function pauseCountdown(){
+      const currentTime = new Date();
+
+      if (isCountdownRunning) {
+        clearInterval(countdownInterval);
+        isCountdownRunning = false;
+        document.getElementById('pauseBtnCountdown').textContent = "Continue";
+        elapsedTime = currentTime - startTime;
+      }else{
+        countdownInterval = setInterval(updateCountdownTime, 500);
+        isCountdownRunning = true;
+        document.getElementById('pauseBtnCountdown').textContent = "Pause";
+        startTime = currentTime;
+      }
+    }
+
+    function resetCountdown() {
+      clearInterval(countdownInterval);
+      isCountdownRunning = false;
+      countdownTime = remainingTime; // Reset to initial value
+
+      document.getElementById('hoursCountdown').textContent = "00";
+      document.getElementById('minutesCountdown').textContent = "00";
+      document.getElementById('secondsCountdown').textContent = "00";
+
+      document.getElementById('startBtnCountdown').style.display = "";
+      document.getElementById('pauseBtnCountdown').style.display = "none";
+
+      document.getElementById('pauseBtnCountdown').textContent = "Pause";
+      navigate("timerPage");
+    } 
+    
+    
+    
+    
+    
+    let startTime;
+    let timePassed = 0;
+    let timerInterval;
+    let isChronometerRunning = false;
+
+    function startChronometer() {
+      startTime = new Date();
+      timePassed = 0;
+      // Start the interval to update the time every second
+      timerInterval = setInterval(updateChronometerTime, 1000);
+      isChronometerRunning = true;
+
+
+      document.getElementById('startBtnChronometer').style.display = "none";
+      document.getElementById('pauseBtnChronometer').style.display = "";
+      document.getElementById('resetBtnChronometer').style.display = "";
+    }
+
+    function updateChronometerTime() {
+      // Get the current time
+      const currentTime = new Date();
+      
+      // Calculate the time passed since the start time
+      const timeElapsed = new Date(currentTime - startTime + timePassed); // Time difference in milliseconds
+      
+      // Get the hours and minutes from the time elapsed
+      const hours = timeElapsed.getUTCHours().toString().padStart(2, '0');
+      const minutes = timeElapsed.getUTCMinutes().toString().padStart(2, '0');
+      const seconds = timeElapsed.getUTCSeconds().toString().padStart(2, '0');
+      
+      // Display the hours and minutes in the respective elements
+      document.getElementById('hoursChronometer').textContent = hours;
+      document.getElementById('minutesChronometer').textContent = minutes;
+      document.getElementById('secondsChronometer').textContent = seconds;
+    }
+    
+    function pauseChronometer() {
+      // Stop the interval when the pause button is clicked
+      const currentTime = new Date();
+
+      if (isChronometerRunning) {
+        clearInterval(timerInterval);
+        timePassed += currentTime - startTime;
+        isChronometerRunning = false;
+        document.getElementById('pauseBtnChronometer').textContent = "Continue"; 
+      }else{
+        timerInterval = setInterval(updateChronometerTime, 1000);
+        isChronometerRunning = true;
+        document.getElementById('pauseBtnChronometer').textContent = "Pause"; 
+        startTime = new Date();
+
+      }
+    }
+
+    function resetChronometer() {
+      // Stop the interval
+      clearInterval(timerInterval);
+      isChronometerRunning = false;
+      
+      // Reset the time display to 00:00
+      document.getElementById('hoursChronometer').textContent = "00";
+      document.getElementById('minutesChronometer').textContent = "00";
+      document.getElementById('secondsChronometer').textContent = "00";
+      
+      
+      document.getElementById('startBtnChronometer').style.display = "";
+      document.getElementById('pauseBtnChronometer').style.display = "none";
+      document.getElementById('resetBtnChronometer').style.display = "none";
+      document.getElementById('pauseBtnChronometer').textContent = "Pause"; 
+    }
+
+  </script>
+</body> 
+</html>

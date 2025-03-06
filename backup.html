@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      -webkit-app-region: drag;
+      }
+      
+    .container{
+      
+      display: flex;
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      height: 100vh; 
+      text-align: center; 
+      }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2a5298;
+      color: white;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+    button:hover {
+      background-color: #1e3c72;
+    }
+
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1; 
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome Meftune!</h1>
+    <button onclick="navigate('studyMode.html')">Select Mode</button>
+  </div>
+
+  <canvas id="snowCanvas"></canvas>
+  <script src="snow.js"></script>
+  
+  <script>
+    function navigate(page) {
+      window.location.href = page;
+    }
+  </script>
+
+</body>
+</html>
