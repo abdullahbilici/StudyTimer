@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require("path");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -6,6 +7,7 @@ function createWindow() {
     height: 300,
     resizable: false,
     frame:false,
+    icon: path.join(__dirname, "assets/icon.jpeg"),
     maximizable: false,  // Disable maximize button
     webPreferences: {
       nodeIntegration: true,
@@ -24,6 +26,7 @@ function createWindow() {
   ipcMain.on('minimize-window', () => {
     win.minimize();
   });
+
 }
 
 app.whenReady().then(createWindow);
