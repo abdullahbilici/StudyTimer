@@ -163,9 +163,9 @@
   <div id="timerPage" class="page">
     <h3 id="timerH3">Set Timer</h3>
     <div>
-        <button onclick="setCountdown(30)">30 mins</button>
-        <button onclick="setCountdown(45)">45 mins</button>
-        <button onclick="setCountdown(60)">60 mins</button>
+        <button onclick="setCountdown(30)">30 minutes</button>
+        <button onclick="setCountdown(45)">45 minutes</button>
+        <button onclick="setCountdown(60)">60 minutes</button>
         <!-- <input type="number" id="timerInput" placeholder="Enter minutes"onkeydown="if(event.key === 'Enter') setCountdown(parseInt(this.value, 10))"> -->
     </div>
 </div>
@@ -216,6 +216,8 @@
 
   <script src="snow.js"></script>
   <script>
+    let soundInterval;
+
     const { ipcRenderer } = require('electron');
 
     function closeWindow() {
@@ -230,6 +232,11 @@
       resetChronometer();
       resetCountdown();
       navigate("welcomePage");
+    }
+
+    function playSound(){
+      const sound = new Audio('sound\\mixkit-correct-answer-tone-2870.wav');  // Specify the path to your sound file
+      sound.play();
     }
 
     function navigate(page) {
@@ -257,6 +264,7 @@
       document.getElementById("minutesCountdown").textContent = String(minutes).padStart(2, '0');
       document.getElementById("secondsCountdown").textContent = String(seconds).padStart(2, '0');
 
+
       navigate("countdownPage")
     }
 
@@ -281,7 +289,10 @@
       const timeLeft = countdownTime - elapsed - elapsedTime;
 
       if (timeLeft <= 0) {
-        resetCountdown();
+        if(!soundInterval){
+          playSound();
+          soundInterval = setInterval(playSound, 2000);
+        }
         return;
       }
 
@@ -312,6 +323,9 @@
 
     function resetCountdown() {
       clearInterval(countdownInterval);
+      clearInterval(soundInterval);
+      soundInterval = null;
+
       isCountdownRunning = false;
       countdownTime = remainingTime; // Reset to initial value
 
