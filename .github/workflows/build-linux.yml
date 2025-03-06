@@ -1,0 +1,33 @@
+name: Build Electron App for Linux
+
+on:
+  workflow_dispatch:  # Allows manual trigger only, no automatic runs
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest  # Uses GitHub's Ubuntu runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Match your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Linux
+        run: npm run build -- --linux
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: List contents of dist directory
+        run: ls -al dist/
+
+      - name: Upload Linux Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: dist/*.tar.gz  # Adjusted for typical Linux archive files
