@@ -30,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-build
-          path: dist/*.tar.gz  # Adjusted for typical Linux archive files
+          path: dist/*.AppImage # Adjusted for typical Linux archive files
