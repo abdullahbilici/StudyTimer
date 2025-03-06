@@ -1,0 +1,31 @@
+name: Build Electron App for macOS
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if different
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  build-macos:
+    runs-on: macos-latest  # Uses GitHub's macOS runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20  # Match your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for macOS
+        run: npm run build -- --mac
+
+      - name: Upload macOS Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS-build
+          path: dist/*.dmg
