@@ -19,7 +19,7 @@ jobs:
         run: npm install
 
       - name: Build for Windows
-        run: npm run build -- --win --icon=assets/icon.jpeg
+        run: npm run build -- --win
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
