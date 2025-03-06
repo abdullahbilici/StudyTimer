@@ -20,15 +20,15 @@
     "mac": {
       "target": "zip",
       "identity": null,
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.jpeg"
     },
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.jpeg"
     },
     "linux": {
       "target": "AppImage",
-      "icon": "assets/icon.png"
+      "icon": "assets/icon.jpeg"
     }
   }
 }
