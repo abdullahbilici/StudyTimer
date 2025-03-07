@@ -7,7 +7,6 @@ function createWindow() {
     height: 300,
     resizable: false,
     frame:false,
-    icon: path.join(__dirname, "assets/icon.jpeg"),
     maximizable: false,  // Disable maximize button
     webPreferences: {
       nodeIntegration: true,
