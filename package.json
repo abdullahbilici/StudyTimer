@@ -19,16 +19,13 @@
     "productName": "Study Timer",
     "mac": {
       "target": "zip",
-      "identity": null,
-      "icon": "assets/icon.jpeg"
+      "identity": null
     },
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.jpeg"
+      "target": "nsis"
     },
     "linux": {
-      "target": "AppImage",
-      "icon": "assets/icon.jpeg"
+      "target": "AppImage"
     }
   }
 }
