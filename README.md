@@ -10,23 +10,23 @@ Easily switch between a countdown timer and a chronometer to help manage your st
 - **Intro Page**  
   Greeted with a friendly welcome and a snowy animated background.
 
-  ![Intro Page](assets/screenshots/homePage.png)
+  <img src="assets/screenshots/homePage.png" width="50%" />
 
 - **Mode Selection**  
   Choose between Timer and Chronometer modes.
 
-  ![Mode Selection](assets/screenshots/selectMode.png)
+  <img src="assets/screenshots/selectMode.png" width="50%" />
 
 - **Timer**  
   Set a countdown for 30, 45, or 60 minutes. Start, pause, and reset as needed.  
   When the timer ends, a sound will play.
 
-  ![Timer](assets/screenshots/timer.png)
+  <img src="assets/screenshots/timer.png" width="50%" />
 
 - **Chronometer**  
   A simple stopwatch to track your study time. Start, pause, and reset as needed.
 
-  ![Chronometer](assets/screenshots/chronometer.png)
+  <img src="assets/screenshots/chronometer.png" width="50%" />
 
 ---
 
